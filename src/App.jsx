@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 
 function App() {
   const [politici, setPolitici] = useState([])
@@ -14,12 +14,14 @@ function App() {
 
   // filtro per ricerca sia di nome che di bio
 
-  const filtroPolitici = politici.filter(politico => {
-    const filtroNome = politico.name.toLowerCase().includes(ricerca.toLowerCase())
-    const filtrobBio = politico.biography.toLowerCase().includes(ricerca.toLowerCase())
+  const filtroPolitici = useMemo(() => {
+    return politici.filter(politico => {
+      const filtroNome = politico.name.toLowerCase().includes(ricerca.toLowerCase())
+      const filtrobBio = politico.biography.toLowerCase().includes(ricerca.toLowerCase())
 
-    return filtroNome || filtrobBio
-  })
+      return filtroNome || filtrobBio
+    })
+  }, [politici, ricerca])
 
   return (
     <span>
